@@ -47,12 +47,15 @@ const ColorList = ({ colors, updateColors }) => {
 
   const addColor = e => {
     e.preventDefault();
-    axiosWithAuth()
-      .post(`http://localhost:5000/api/colors`, colorToAdd)
-      .then(res => {
-        updateColors(res.data);
-      })
-      .catch(err => console.log(err.response));
+    if (colorToAdd.color !== '' && colorToAdd.code.hex !== '') {
+      axiosWithAuth()
+        .post(`http://localhost:5000/api/colors`, colorToAdd)
+        .then(res => {
+          updateColors(res.data);
+        })
+        .catch(err => console.log(err.response));
+      setColorToAdd(initialColor);
+    }
   }
 
   return (
@@ -135,7 +138,7 @@ const ColorList = ({ colors, updateColors }) => {
             </label>
             <div className="button-row">
               <button type="submit">add</button>
-              <button onClick={() => setEditing(false)}>cancel</button>
+              <button onClick={() => setAdding(false)}>cancel</button>
             </div>
         </form>
        }
